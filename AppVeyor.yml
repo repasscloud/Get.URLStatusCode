@@ -1,0 +1,80 @@
+# Build worker image (VM template)
+image: Visual Studio 2017
+
+# scripts that are called at very beginning, before repo cloningit:
+init:
+  - git config --global core.autocrlf input
+
+# clone directory
+clone_folder: C:\Projects\Get.URLStatusCode
+
+# version format
+version: 2.0.2.{build}
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - master
+
+  # blacklist
+  except:
+    - gh-pages
+
+# Skipping commits with particular message or from specific user
+skip_commits:
+  message: /updated? readme.*s/
+#  author: John                                      # Commit author's username, name, email or regexp maching one of these.
+
+# environment variables
+environment:
+  NUGET_API_KEY:
+    secure: vwJBhbWY9NwSAeYw7iU4i3RjqfVkegrXFyFAJB/uFIYtp5pz0Vw5Htiyfa83v+dg
+  APPVEYOR_RDP_PASSWORD:
+    secure: Ps2KNyw17/1mtAm9/5/miw==
+
+
+# Build settings, not to be confused with "before_build" and "after_build".
+build: false
+
+# scripts that run after cloning repository
+install:
+  - ps: .\build.ps1   #~> builds the module on the CI server
+  - ps: .\install.ps1   #~> installs the module locally on the CI server
+  - ps: Import-Module -Name Get.URLStatusCode  # Imports the module for testing
+#  - ps: |
+#      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+#      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+  
+
+# on successful build
+on_success:
+#  - ps: |
+#      Write-Host "Build ID: " -ForegroundColor Yellow -NoNewLine
+#      Write-Host $env:APPVEYOR_BUILD_ID
+#      Write-Host "Build Version: " -ForegroundColor Yellow -NoNewLine
+#      Write-Host $env:APPVEYOR_BUILD_VERSION
+#  - ps: |
+#      Write-Host -ForegroundColor Green 'Importing Module: ' -NoNewLine
+#      Write-Host "Find.Uninstaller"
+#      Import-Module -Name Find.Uninstaller
+#  - ps: |
+#      Write-Host -ForegroundColor Green 'Running commmand: ' -NoNewLine
+#      Write-Host 'Get-UninstallString -Application Zip -FullDetail'
+#      Get-UninstallString -Application Zip -FullDetail
+#  - ps: |
+#      Write-Host -ForegroundColor Green 'Running commmand: ' -NoNewLine
+#      Write-Host 'Get-UninstallString -Application zip'
+#      Get-UninstallString -Application zip
+#  - ps: |
+#      Write-Host "Running command: Get-UninstallString -Application zip | Select-Object *"
+#      Get-UninstallString -Application zip | Select-Object *
+
+# on build failure
+on_failure:
+  - ps: Write-Host -ForegroundColor Red 'Build failed :-('
+
+# after build failure or success
+on_finish:
+#  - ps: .\deploy.ps1
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
