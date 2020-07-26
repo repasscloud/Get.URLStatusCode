@@ -35,7 +35,7 @@ environment:
 
 
 # Build settings, not to be confused with "before_build" and "after_build".
-build: false
+build: off
 
 # scripts that run after cloning repository
 install:
