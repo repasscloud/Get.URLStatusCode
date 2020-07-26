@@ -1,13 +1,3 @@
-# Build worker image (VM template)
-image: Visual Studio 2017
-
-# scripts that are called at very beginning, before repo cloningit:
-init:
-  - git config --global core.autocrlf input
-
-# clone directory
-clone_folder: C:\Projects\Get.URLStatusCode
-
 # version format
 version: 2.0.2.{build}
 
@@ -16,15 +6,52 @@ branches:
   # whitelist
   only:
     - master
-
   # blacklist
   except:
     - gh-pages
 
-# Skipping commits with particular message or from specific user
+# Do not build on tags (GitHub, Bitbucket, GitLab, Gitea)
+skip_tags: true
+
+# Skipping commits affecting specific files (GitHub only). More details here: /docs/appveyor-yml
 skip_commits:
+  files:
+    - docs/*
+    - '**/*.html'
+    - README.md
+    - .github/*
   message: /updated? readme.*s/
-#  author: John                                      # Commit author's username, name, email or regexp maching one of these.
+
+# Maximum number of concurrent jobs for the project
+max_jobs: 1
+
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Build worker image (VM template)
+image: Visual Studio 2019
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+
+# clone directory
+clone_folder: C:\Projects\Get.URLStatusCode
+
+# fetch repository as zip archive
+shallow_clone: true                 # default is "false"
+
+# set clone depth
+clone_depth: 5                      # clone entire repository history if not defined
+
+# this is how to allow failing jobs in the matrix
+matrix:
+  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+  allow_failures:
+    - platform: x64
+      configuration: Release
 
 # environment variables
 environment:
@@ -33,19 +60,27 @@ environment:
   APPVEYOR_RDP_PASSWORD:
     secure: Ps2KNyw17/1mtAm9/5/miw==
 
-
-# Build settings, not to be confused with "before_build" and "after_build".
-build: off
-
 # scripts that run after cloning repository
 install:
   - ps: .\build.ps1   #~> builds the module on the CI server
   - ps: .\install.ps1   #~> installs the module locally on the CI server
   - ps: Import-Module -Name Get.URLStatusCode  # Imports the module for testing
 #  - ps: |
-#      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-#      Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-  
+#      Start-Sleep -Seconds 15
+#      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
+#      Install-Module -Name PowerShellGet -Force
+#      "Git version: $(git.exe --version)"
+#      "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
+#      "Host name:   $($Host.Name)"
+  - ps: Write-Host 'This is PowerShell'
+
+
+build_script:
+  - ps: Write-host "This is powershell!"
+#  - ps: ./build.ps1
+
+#test_script:
+#  - ps: ./test.ps1
 
 # on successful build
 on_success:
