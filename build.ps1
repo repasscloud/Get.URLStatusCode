@@ -27,7 +27,6 @@ $FileList=@(
     '.\LICENSE',
     '.\README.md',
     '.\Get.URLStatusCode.psm1',
-    '.\Get.URLStatusCode.psd1',
     '.\CHANGELOG.md'
 )
 
