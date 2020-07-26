@@ -1,0 +1,11 @@
+PSTOPIC
+    about_Get.URLStatusCode
+
+SHORT DESCRIPTION
+    Get.URLStatusCode allows you to return the HTTP Status code of a given URI
+
+LONG DESCRIPTION
+    Get.URLStatusCode allows you to return the HTTP Status code of a given URI
+
+DETAILED DESCRIPTION
+    This is a rudimentary module that allows querying for HTTP Status codes of provided URI object. It allows for quick identification of status of a resource.
