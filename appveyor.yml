@@ -57,8 +57,8 @@ matrix:
 environment:
   NUGET_API_KEY:
     secure: vwJBhbWY9NwSAeYw7iU4i3RjqfVkegrXFyFAJB/uFIYtp5pz0Vw5Htiyfa83v+dg
-  APPVEYOR_RDP_PASSWORD:
-    secure: Ps2KNyw17/1mtAm9/5/miw==
+# APPVEYOR_RDP_PASSWORD:
+#   secure: Ps2KNyw17/1mtAm9/5/miw==
 
 # scripts that run after cloning repository
 install:
