@@ -57,9 +57,10 @@ matrix:
 environment:
   NUGET_API_KEY:
     secure: vwJBhbWY9NwSAeYw7iU4i3RjqfVkegrXFyFAJB/uFIYtp5pz0Vw5Htiyfa83v+dg
+  GITHUB_TOKEN:
+    secure: CfEmErpg+GG/Zz860w3f++jGVYHmqQTqglE2nyfg5AMeTstEx5rIJAbA7V+SBmI6
 # APPVEYOR_RDP_PASSWORD:
 #   secure: Ps2KNyw17/1mtAm9/5/miw==
-
 # scripts that run after cloning repository
 install:
 #  - ps: .\build.ps1   #~> builds the module on the CI server
@@ -94,6 +95,12 @@ on_success:
       Write-Host $Env:APPVEYOR_REPO_BRANCH
       Write-Host "Job Number: " -ForegroundColor Yellow -NoNewLine
       Write-Host $Env:APPVEYOR_JOB_NUMBER
+  - git config --global credential.helper store
+  - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:access_token):x-oauth-basic@github.com`n" -NoNewline
+  - git config --global user.email "Your email"
+  - git config --global user.name "Your Name"
+  - git commit ...
+  - git push ...
 
 # on build failure
 on_failure:
