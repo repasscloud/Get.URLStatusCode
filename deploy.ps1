@@ -34,8 +34,9 @@ function Main {
 	### Skip the build if the Git tag does not match "release"
 	Write-Output -InputObject "Git tag is: $Env:APPVEYOR_REPO_TAG_NAME";
 	if ($Env:APPVEYOR_REPO_TAG_NAME -notmatch 'release') {
-		throw 'The release tag was not found on this commit. Skipping deployment.';
-		return;
+		#throw 'The release tag was not found on this commit. Skipping deployment.';
+		#return;
+		Write-Host $Env:APPVEYOR_REPO_TAG_NAME
 	}
 	else {
 	Write-Verbose -Message ('The release tag ({0}) was found on this commit. Starting deployment.' -f $Env:APPVEYOR_REPO_TAG_NAME);
