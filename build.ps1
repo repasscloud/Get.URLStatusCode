@@ -22,7 +22,6 @@ Example 2 - Switch statement using HTTP Status Code:
 "@
 
 $FileList=@(
-    'Private',
     'Public',
     '.\LICENSE',
     '.\README.md',
