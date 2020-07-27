@@ -77,7 +77,7 @@ install:
 
 build_script:
   - ps: Write-Host "This is powershell!"
-  - ps: Write-Host "Build Number: " $Env:APPVEYOR_BUILD_NUMBER
+  - ps: Write-Host $Env:APPVEYOR_BUILD_NUMBER
   - ps: Write-Output "Build Version: "+$Env:APPVEYOR_BUILD_VERSION
   - ps: Write-Output "Job Number: " $Env:APPVEYOR_JOB_NUMBER
   - ps: Write-Output "Repo Branch: " $Env:APPVEYOR_REPO_BRANCH
