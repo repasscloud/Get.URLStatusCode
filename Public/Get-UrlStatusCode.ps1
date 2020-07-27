@@ -10,10 +10,11 @@
 .OUTPUTS
   [int]$HTTP_Response.StatusCode
 .NOTES
-  Version:        2.0.0.2
+  Version:
   Author:         Copyright © 2020 RePass Cloud Pty Ltd (https://repasscloud.com/). All rights reserved.
   License:        Apache-2.0
   Creation Date:  2020-07-17
+  Last Updated:
   
 .EXAMPLE
   Get-URLStatusCode -Url https://www.google.com/
