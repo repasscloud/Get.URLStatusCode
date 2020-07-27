@@ -44,7 +44,7 @@ $FunctionsToExport=@('Get-URLStatusCode')
 
 $HelpInfoURI='https://raw.githubusercontent.com/repasscloud/Get.URLStatusCode/master/README.md'
 
-$ModuleVersion='2.2.0.23'
+$ModuleVersion=$Env:APPVEYOR_BUILD_VERSION
 
 #New-ModuleManifest -Path "${PSScriptRoot}\Get-URLStatusCode.psd1" `
 New-ModuleManifest -Path $PSD1 `
@@ -64,15 +64,18 @@ New-ModuleManifest -Path $PSD1 `
   -FunctionsToExport $FunctionsToExport `
   -HelpInfoUri $HelpInfoURI
 
-#if ($Env:APPVEYOR_BUILD_NUMBER) {
-#    $CurrentBuild=$Env:APPVEYOR_BUILD_NUMBER
-#}
+if ($Env:APPVEYOR_BUILD_NUMBER) {
+    $CurrentBuild=$Env:APPVEYOR_BUILD_NUMBER
+}
 
 # Update the PS Scripts with the version and build
-#$OldVersionString='  Version:';
-#$NewVersionString="  Version:        2.0.2.{0}" -f $CurrentBuild
-#Get-ChildItem -Path "$Env:APPVEYOR_BUILD_FOLDER\public" -Filter "*.ps1" | ForEach-Object {
-#    $ManifestContent = Get-Content -Path $_.FullName -Raw;
-#    $ManifestContent = $ManifestContent -replace $OldVersionString,$NewVersionString;
-#    Set-Content -Path $_.FullName -Value $ManifestContent;
-#}
+$OldVersionString='  Version:';
+$NewVersionString="  Version:        2.0.2.{0}" -f $CurrentBuild
+$LastUpdated='  Last Updated:';
+$LatestUpdated="  Last Updated:   $((Get-Date).ToString('yyyy-MM-dd'))";
+Get-ChildItem -Path "$Env:APPVEYOR_BUILD_FOLDER\public" -Filter "*.ps1" | ForEach-Object {
+    $ManifestContent = Get-Content -Path $_.FullName -Raw;
+    $ManifestContent = $ManifestContent -replace $OldVersionString,$NewVersionString;
+    $ManifestContent = $ManifestContent -replace $LastUpdated,$LatestUpdated;
+    Set-Content -Path $_.FullName -Value $ManifestContent;
+}
