@@ -62,63 +62,38 @@ environment:
 
 # scripts that run after cloning repository
 install:
-  - ps: .\build.ps1   #~> builds the module on the CI server
-  - ps: .\install.ps1   #~> installs the module locally on the CI server
-  - ps: Import-Module -Name Get.URLStatusCode  # Imports the module for testing
-#  - ps: |
+#  - ps: .\build.ps1   #~> builds the module on the CI server
+#  - ps: .\install.ps1   #~> installs the module locally on the CI server
+#  - ps: Import-Module -Name Get.URLStatusCode  # Imports the module for testing
+  - ps: |
 #      Start-Sleep -Seconds 15
 #      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
 #      Install-Module -Name PowerShellGet -Force
-#      "Git version: $(git.exe --version)"
-#      "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
-#      "Host name:   $($Host.Name)"
-  - ps: Write-Host 'This is PowerShell'
-
+      "Git version: $(git.exe --version)"
+      "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
+      "Host name:   $($Host.Name)"
 
 build_script:
-  - ps: Write-Host "This is powershell!"
-  - ps: |
-      Write-Host "Build Number: " -NoNewLine
-      Write-Host $Env:APPVEYOR_BUILD_NUMBER
-  - ps: |
-      Write-Host "Build Version: " -NoNewLine
-      Write-Host $Env:APPVEYOR_BUILD_VERSION
-  - ps: |
-      Write-Host "Job Number: " -NoNewLine
-      Write-Host $Env:APPVEYOR_JOB_NUMBER
-  - ps: |
-      Write-Host "Repo Branch: " -NoNewLine
-      Write-Host $Env:APPVEYOR_REPO_BRANCH
-  - ps: |
-      Write-Host "Repo Commit: " -NoNewLine
-      Write-Host $Env:APPVEYOR_REPO_COMMIT
-#  - ps: ./build.ps1
+  - ps: ./build.ps1
 
-#test_script:
-#  - ps: ./test.ps1
+test_script:
+  - ps: ./test.ps1
 
 # on successful build
 on_success:
-#  - ps: |
-#      Write-Host "Build ID: " -ForegroundColor Yellow -NoNewLine
-#      Write-Host $env:APPVEYOR_BUILD_ID
-#      Write-Host "Build Version: " -ForegroundColor Yellow -NoNewLine
-#      Write-Host $env:APPVEYOR_BUILD_VERSION
-#  - ps: |
-#      Write-Host -ForegroundColor Green 'Importing Module: ' -NoNewLine
-#      Write-Host "Find.Uninstaller"
-#      Import-Module -Name Find.Uninstaller
-#  - ps: |
-#      Write-Host -ForegroundColor Green 'Running commmand: ' -NoNewLine
-#      Write-Host 'Get-UninstallString -Application Zip -FullDetail'
-#      Get-UninstallString -Application Zip -FullDetail
-#  - ps: |
-#      Write-Host -ForegroundColor Green 'Running commmand: ' -NoNewLine
-#      Write-Host 'Get-UninstallString -Application zip'
-#      Get-UninstallString -Application zip
-#  - ps: |
-#      Write-Host "Running command: Get-UninstallString -Application zip | Select-Object *"
-#      Get-UninstallString -Application zip | Select-Object *
+  - ps: |
+      Write-Host "Build Number: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $Env:APPVEYOR_BUILD_NUMBER
+      Write-Host "Build ID: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $env:APPVEYOR_BUILD_ID
+      Write-Host "Build Version: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $env:APPVEYOR_BUILD_VERSION
+      Write-Host "Repo Commit: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $Env:APPVEYOR_REPO_COMMIT
+      Write-Host "Repo Branch: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $Env:APPVEYOR_REPO_BRANCH
+      Write-Host "Job Number: " -ForegroundColor Yellow -NoNewLine
+      Write-Host $Env:APPVEYOR_JOB_NUMBER
 
 # on build failure
 on_failure:
@@ -126,5 +101,5 @@ on_failure:
 
 # after build failure or success
 on_finish:
-#  - ps: .\deploy.ps1
+  - ps: .\deploy.ps1
 # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
