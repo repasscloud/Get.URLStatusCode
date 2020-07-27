@@ -29,7 +29,7 @@ function Invoke-PatchModuleManifest {
 function Main {
 	[CmdletBinding()]
 	param ()
-	$VerbosePreference = 'continue';
+	$VerbosePreference = 'Continue';
 
 	### Skip the build if the Git tag does not match "release"
 	Write-Output -InputObject "Git tag is: $Env:APPVEYOR_REPO_TAG_NAME";
