@@ -34,21 +34,22 @@ function Main {
 	### Skip the build if the Git tag does not match "release"
 	Write-Output -InputObject "Git tag is: $Env:APPVEYOR_REPO_TAG_NAME";
 	if ($Env:APPVEYOR_REPO_TAG_NAME -notmatch 'release') {
-		#throw 'The release tag was not found on this commit. Skipping deployment.';
-		#return;
-	} else {
-			Write-Verbose -Message ('The release tag ({0}) was found on this commit. Starting deployment.' -f $Env:APPVEYOR_REPO_TAG_NAME);
+		throw 'The release tag was not found on this commit. Skipping deployment.';
+		return;
 	}
+	else {
+	Write-Verbose -Message ('The release tag ({0}) was found on this commit. Starting deployment.' -f $Env:APPVEYOR_REPO_TAG_NAME);
 
-	'AppVeyor Build Folder: {0}' -f $Env:APPVEYOR_BUILD_FOLDER;
-	Write-Verbose -Message 'Calling Find-Package command to download nuget-anycpu.exe'
-	Find-Package -ForceBootstrap -Name zzzzzz -ErrorAction Ignore;
+		'AppVeyor Build Folder: {0}' -f $Env:APPVEYOR_BUILD_FOLDER;
+		Write-Verbose -Message 'Calling Find-Package command to download nuget-anycpu.exe'
+		Find-Package -ForceBootstrap -Name zzzzzz -ErrorAction Ignore;
 
-	Invoke-PatchModuleManifest -Path $Env:APPVEYOR_BUILD_FOLDER\Find.Uninstaller.psd1 -BuildNumber $Env:APPVEYOR_BUILD_NUMBER;
+		#Invoke-PatchModuleManifest -Path $Env:APPVEYOR_BUILD_FOLDER\Find.Uninstaller.psd1 -BuildNumber $Env:APPVEYOR_BUILD_NUMBER;
 
-	Write-Verbose -Message ('Publishing module {0} to Gallery!' -f $Env:APPVEYOR_BUILD_FOLDER);
-	Publish-Module -Path $Env:APPVEYOR_BUILD_FOLDER -NuGetApiKey $Env:NUGET_API_KEY;
-	Write-Verbose -Message 'Finished publishing module!'
+		Write-Verbose -Message ('Publishing module {0} to Gallery!' -f $Env:APPVEYOR_BUILD_FOLDER);
+		Publish-Module -Path $Env:APPVEYOR_BUILD_FOLDER -NuGetApiKey $Env:NUGET_API_KEY;
+		Write-Verbose -Message 'Finished publishing module!'
+	}
 }
 
 ### Invoke Main function
