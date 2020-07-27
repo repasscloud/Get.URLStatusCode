@@ -93,6 +93,7 @@ on_success:
   - git config --global user.email $Env:GITHUB_EMAIL
   - git config --global user.name $Env:GITHUB_NAME
   - ps: git tag -a "v$($Env:APPVEYOR_BUILD_VERSION)" -m "Releasing version v$($Env:APPVEYOR_BUILD_VERSION)"
+  - git push origin -f --tags
 #  - git remote add origin https://github.com/repasscloud/Get.URLStatusCode.git
   - git push -u origin master
 
