@@ -77,5 +77,5 @@ Get-ChildItem -Path "$Env:APPVEYOR_BUILD_FOLDER\public" -Filter "*.ps1" | ForEac
     $ManifestContent = Get-Content -Path $_.FullName -Raw;
     $ManifestContent = $ManifestContent -replace $OldVersionString,$NewVersionString;
     $ManifestContent = $ManifestContent -replace $LastUpdated,$LatestUpdated;
-    Set-Content -Path $_.FullName -Value $ManifestContent;
+    Set-Content -Path $_.FullName -Value $ManifestContent -Force;
 }

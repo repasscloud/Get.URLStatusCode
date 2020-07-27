@@ -75,6 +75,9 @@ install:
 build_script:
   - ps: ./build.ps1
 
+install_script:
+  - ps: ./install.ps1
+
 test_script:
   - ps: ./test.ps1
 
