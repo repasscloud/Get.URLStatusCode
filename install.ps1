@@ -7,5 +7,5 @@ if (-not $fullPath) {
             $fullPath = Join-Path $fullPath -ChildPath "Get.URLStatusCode"
 }
 Push-location $PSScriptRoot
-Robocopy . $fullPath /mir /XD .devbots .github .git Tests /XF AppVeyor.yml .gitignore build.ps1 install.ps1 deploy.ps1 CODE-OF-CONDUCT.md CONTRIBUTING.md
+Robocopy . $fullPath /mir /XD .devbots .github .git Tests /XF AppVeyor.yml .gitignore build.ps1 install.ps1 deploy.ps1 CODE-OF-CONDUCT.md CONTRIBUTING.md test.ps1
 Pop-Location
