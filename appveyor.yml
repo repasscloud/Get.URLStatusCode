@@ -41,10 +41,10 @@ init:
 clone_folder: C:\Projects\Get.URLStatusCode
 
 # fetch repository as zip archive
-shallow_clone: true                 # default is "false"
+shallow_clone: false                 # default is "false"
 
 # set clone depth
-clone_depth: 5                      # clone entire repository history if not defined
+#clone_depth: 5                      # clone entire repository history if not defined
 
 # this is how to allow failing jobs in the matrix
 matrix:
@@ -86,7 +86,7 @@ test_script:
 
 # on successful build
 on_success:
-  - git init
+#  - git init
   - git add .
   - git config --global credential.helper store
   - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($Env:GITHUB_TOKEN):x-oauth-basic@github.com`n" -NoNewline
