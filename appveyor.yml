@@ -77,11 +77,11 @@ install:
 
 build_script:
   - ps: Write-host "This is powershell!"
-  - ps: Write-Output "Build Number: ${Env:APPVEYOR_BUILD_NUMBER}"
-  - ps: Write-Output "Build Version: ${Env:APPVEYOR_BUILD_VERSION}"
-  - ps: Write-Output "Job Number: ${Env:APPVEYOR_JOB_NUMBER}"
-  - ps: Write-Output "Repo Branch: ${Env:APPVEYOR_REPO_BRANCH}"
-  - ps: Write-Output "Repo Commit: ${Env:APPVEYOR_REPO_COMMIT}"
+  - ps: Write-Output "Build Number: " $Env:APPVEYOR_BUILD_NUMBER
+  - ps: Write-Output "Build Version: " $Env:APPVEYOR_BUILD_VERSION
+  - ps: Write-Output "Job Number: " $Env:APPVEYOR_JOB_NUMBER
+  - ps: Write-Output "Repo Branch: " $Env:APPVEYOR_REPO_BRANCH
+  - ps: Write-Output "Repo Commit: " $Env:APPVEYOR_REPO_COMMIT
 #  - ps: ./build.ps1
 
 #test_script:
