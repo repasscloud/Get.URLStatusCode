@@ -66,9 +66,8 @@ install:
 #  - ps: .\install.ps1   #~> installs the module locally on the CI server
 #  - ps: Import-Module -Name Get.URLStatusCode  # Imports the module for testing
   - ps: |
-#      Start-Sleep -Seconds 15
-#      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
-#      Install-Module -Name PowerShellGet -Force
+      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.208 -Force
+      Install-Module -Name PowerShellGet -Force
       "Git version: $(git.exe --version)"
       "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
       "Host name:   $($Host.Name)"
