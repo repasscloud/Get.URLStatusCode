@@ -28,19 +28,26 @@ function Invoke-PatchModuleManifest {
 
 function Main {
 	[CmdletBinding()]
-	param ()
+	param ($fullPath)
 	$VerbosePreference = 'Continue';
 
 	### Skip the build if the Git tag does not match "release"
-	Write-Output -InputObject "Git tag is: $Env:APPVEYOR_REPO_TAG_NAME";
-	if ($Env:APPVEYOR_REPO_TAG_NAME -notmatch 'release') {
+	#Write-Output -InputObject "Git tag is: $Env:APPVEYOR_REPO_TAG_NAME";
+	#if ($Env:APPVEYOR_REPO_TAG_NAME -notmatch 'release') {
 		#throw 'The release tag was not found on this commit. Skipping deployment.';
 		#return;
-		Write-Host $Env:APPVEYOR_REPO_TAG_NAME
+	#	Write-Host $Env:APPVEYOR_REPO_TAG_NAME
+	#}
+	#else {
+	#Write-Verbose -Message ('The release tag ({0}) was found on this commit. Starting deployment.' -f $Env:APPVEYOR_REPO_TAG_NAME);
+	
+	#$fullPath = 'C:\Program Files\WindowsPowerShell\Modules\Get.URLStatusCode'
+	if (-not $fullPath) {
+		$fullpath = $env:PSModulePath -split ":(?!\\)|;|," |
+			Where-Object {$_ -notlike ([System.Environment]::GetFolderPath("UserProfile")+"*") -and $_ -notlike "$pshome*"} |
+				Select-Object -First 1
+				$fullPath = Join-Path $fullPath -ChildPath "Get.URLStatusCode"
 	}
-	else {
-	Write-Verbose -Message ('The release tag ({0}) was found on this commit. Starting deployment.' -f $Env:APPVEYOR_REPO_TAG_NAME);
-
 		'AppVeyor Build Folder: {0}' -f $Env:APPVEYOR_BUILD_FOLDER;
 		Write-Verbose -Message 'Calling Find-Package command to download nuget-anycpu.exe'
 		Find-Package -ForceBootstrap -Name zzzzzz -ErrorAction Ignore;
@@ -48,9 +55,9 @@ function Main {
 		#Invoke-PatchModuleManifest -Path $Env:APPVEYOR_BUILD_FOLDER\Find.Uninstaller.psd1 -BuildNumber $Env:APPVEYOR_BUILD_NUMBER;
 
 		Write-Verbose -Message ('Publishing module {0} to Gallery!' -f $Env:APPVEYOR_BUILD_FOLDER);
-		Publish-Module -Path $Env:APPVEYOR_BUILD_FOLDER -NuGetApiKey $Env:NUGET_API_KEY;
+		Publish-Module -Path $fullPath -NuGetApiKey $Env:NUGET_API_KEY;
 		Write-Verbose -Message 'Finished publishing module!'
-	}
+	#}
 }
 
 ### Invoke Main function
