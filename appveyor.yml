@@ -86,19 +86,8 @@ test_script:
 
 # on successful build
 on_success:
-  - ps: |
-      Write-Host "Build Number: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $Env:APPVEYOR_BUILD_NUMBER
-      Write-Host "Build ID: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $env:APPVEYOR_BUILD_ID
-      Write-Host "Build Version: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $Env:APPVEYOR_BUILD_VERSION
-      Write-Host "Repo Commit: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $Env:APPVEYOR_REPO_COMMIT
-      Write-Host "Repo Branch: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $Env:APPVEYOR_REPO_BRANCH
-      Write-Host "Job Number: " -ForegroundColor Yellow -NoNewLine
-      Write-Host $Env:APPVEYOR_JOB_NUMBER
+  - git init
+  - git add .
   - git config --global credential.helper store
   - ps: Add-Content -Path "$HOME\.git-credentials" -Value "https://$($Env:GITHUB_TOKEN):x-oauth-basic@github.com`n" -NoNewline
   - git config --global user.email $Env:GITHUB_EMAIL
