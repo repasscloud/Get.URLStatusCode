@@ -1,12 +1,11 @@
 # version format
-version: 2.0.3.{build}
+version: 2.1.4.{build}
 
 # branches to build
 branches:
   # whitelist
   only:
     - master
-    - patch/issue.*
   # blacklist
   except:
     - gh-pages
@@ -77,7 +76,6 @@ install:
       "Git version: $(git.exe --version)"
       "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
       "Host name:   $($Host.Name)"
-
 build_script:
   - ps: ./build.ps1
   - ps: ./install.ps1
@@ -94,9 +92,9 @@ on_success:
   - git config --global user.email $Env:GITHUB_EMAIL
   - git config --global user.name $Env:GITHUB_NAME
   - ps: git tag -a "v$($Env:APPVEYOR_BUILD_VERSION)" -m "Releasing version v$($Env:APPVEYOR_BUILD_VERSION)"
-  - ps: if ($Env:APPVEYOR_REPO_BRANCH -like 'master'){ git push origin -f --tags; git push -u origin master; } else { Write-Output "not master branch, no git push" }
-#  - git push origin -f --tags
-#  - git push -u origin master
+  - git push origin -f --tags
+#  - git remote add origin https://github.com/repasscloud/Get.URLStatusCode.git
+  - git push -u origin master
 
 # on build failure
 on_failure:
@@ -104,5 +102,5 @@ on_failure:
 
 # after build failure or success
 on_finish:
-# - ps: .\deploy.ps1
+  - ps: .\deploy.ps1
 # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
