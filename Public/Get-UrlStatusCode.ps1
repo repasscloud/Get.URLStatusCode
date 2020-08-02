@@ -1,24 +1,3 @@
-<#
-.SYNOPSIS
-  Return HTTP Status code of given URL.
-.DESCRIPTION
-  Return HTTP Status code of given URL.
-.PARAMETER URL
-  URL (or URI) to lookup.
-.INPUTS
-  None
-.OUTPUTS
-  [int]$HTTP_Response.StatusCode
-.NOTES
-  Version:
-  Author:         Copyright © 2020 RePass Cloud Pty Ltd (https://repasscloud.com/). All rights reserved.
-  License:        Apache-2.0
-  Creation Date:  2020-07-17
-  Last Updated:
-  
-.EXAMPLE
-  Get-URLStatusCode -Url https://www.google.com/
-#>
 function Get-UrlStatusCode {
     # Stems from issue #24 (https://github.com/repasscloud/software-library/issues/24)
     # Returns the Status Code of a web URL that is passed in as an arg
@@ -32,20 +11,26 @@ function Get-UrlStatusCode {
     #
     # Source: https://stackoverflow.com/a/20262872
         
-        param(
-            [Parameter(Mandatory=$true,
-                ValueFromPipeline=$true,
-                ValueFromPipelineByPropertyName=$true,
-                ValueFromRemainingArguments=$false,
-                HelpMessage='Provide URL to return HTTP Status Code.',
-                Position=0)]
-            [Alias('uri')]
-            [Uri]$Url
-        )
+    param(
+        [Parameter(Mandatory=$true,
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true,
+            ValueFromRemainingArguments=$false,
+            HelpMessage='Provide URL to return HTTP Status Code.',
+            Position=0)]
+        [Alias('uri')]
+        [Uri]$Url
+    )
     
+    begin {
+        # Set TLS 1.2
+        [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
+    }
+
+    process {
         # First we create the request.
         $HTTP_Request = [System.Net.WebRequest]::Create($Url)
-    
+        
         # We then get a response from the site.
         $HTTP_Response = $HTTP_Request.GetResponse()
         
@@ -53,15 +38,16 @@ function Get-UrlStatusCode {
         $HTTP_Status = [int]$HTTP_Response.StatusCode
         
         return $HTTP_Status
-        
+    
         # Finally, we clean up the http request by closing it.
         if ($null -eq $HTTP_Response) {
-        
         }
         else {
             $HTTP_Response.Close()
         }
-    
+    }
+    end {
         # Clean up memory
         [System.GC]::Collect()
     }
+}

@@ -1,5 +1,5 @@
 # version format
-version: 2.0.2.{build}
+version: 2.1.4.{build}
 
 # branches to build
 branches:
@@ -76,7 +76,6 @@ install:
       "Git version: $(git.exe --version)"
       "PSVersion:   $($PSVersionTable.PSVersion), build: $($PSVersionTable.BuildVersion), clr version: $($PSVersionTable.ClrVersion)"
       "Host name:   $($Host.Name)"
-
 build_script:
   - ps: ./build.ps1
   - ps: ./install.ps1
