@@ -6,7 +6,7 @@ branches:
   # whitelist
   only:
     - master
-    - patch/issue-7
+    - patch/issue.*
   # blacklist
   except:
     - gh-pages
