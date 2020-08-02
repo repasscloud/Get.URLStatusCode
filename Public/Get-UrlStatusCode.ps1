@@ -44,10 +44,10 @@ function Get-UrlStatusCode {
         )
     
         # First we create the request.
-        $HTTP_Request=[System.Net.WebRequest]::Create($Url)
+        $HTTP_Request = [System.Net.WebRequest]::Create($Url)
     
         # We then get a response from the site.
-        $HTTP_Response=$HTTP_Request.GetResponse()
+        $HTTP_Response = $HTTP_Request.GetResponse()
         
         # We then get the HTTP code as an integer.
         $HTTP_Status = [int]$HTTP_Response.StatusCode
